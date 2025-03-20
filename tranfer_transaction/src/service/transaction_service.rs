@@ -22,8 +22,8 @@ where
         Self { user_repo }
     }
 
-    pub async fn send_money_service(&self, send_money_model: SendMoneyModel) -> Result<()> {
-        let  send_money_entity = send_money_model.to_entity();
+    pub async fn send_money_service(&self, send_money_model: SendMoneyModel,sender_id:i32) -> Result<()> {
+        let  send_money_entity = send_money_model.to_entity(sender_id);
         self.user_repo.send_money(send_money_entity).await?;
         info!("send success");
         Ok(())

@@ -42,7 +42,7 @@ export default function Home() {
   // Submit handler
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch("http://localhost:8080/authen/login", {
+      const response = await fetch("http://localhost:8080/authen/regis", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,19 +57,6 @@ export default function Home() {
       const responseData = await response.json();
       console.log(responseData);
 
-      // Extract tokens from the response
-      const { access_token, refresh_token } = responseData.data;
-
-      if (access_token && refresh_token) {
-        // Store tokens in localStorage or another method of your choice
-        localStorage.setItem("accessToken", access_token);
-        localStorage.setItem("refreshToken", refresh_token);
-
-        // Redirect to the dashboard (or other page) upon successful login
-        router.push("/sender"); // Change '/dashboard' to your desired page
-      } else {
-        console.error("Tokens not found in response");
-      }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -111,20 +98,15 @@ export default function Home() {
               </FormItem>
             )}
           />
-
-          {/* Register Link */}
-          <div className="text-center">
-            <Link
-              href="/register"
-              className="text-blue-600 hover:text-blue-800 font-medium underline"
-            >
-              Don't have an account? Register here.
-            </Link>
-          </div>
-
+              {/* Register Link */}
+              <div className="text-center">
+            
+                  Don't have an account? Register here.
+                
+              </div>
           {/* Submit Button */}
           <Button type="submit" className="w-full">
-            Submit
+            Sign Up
           </Button>
         </form>
       </Form>

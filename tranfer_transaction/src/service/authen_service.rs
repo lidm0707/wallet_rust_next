@@ -41,12 +41,14 @@ where
 
         let secret = env::var("TOKEN_SECRET").expect("TOKEN_SECRET not set in .env");
         let access_token_claims = Claim {
+            id: user_login_entity.id,
             user: user.to_string(),
             exp: (Utc::now() + Duration::days(1)).timestamp() as usize,
             iat: Utc::now().timestamp() as usize,
         };
 
         let refresh_token_claims = Claim {
+            id: user_login_entity.id,
             user: user.to_string(),
             exp: (Utc::now() + Duration::days(7)).timestamp() as usize,
             iat: Utc::now().timestamp() as usize,
@@ -67,12 +69,14 @@ where
 
         let claim = verify_token(secret.clone(), refresh_token)?;
         let access_token_claims = Claim {
+            id: claim.id,
             user: claim.user.to_string(),
             exp: (Utc::now() + Duration::days(1)).timestamp() as usize,
             iat: Utc::now().timestamp() as usize,
         };
 
         let refresh_token_claims = Claim {
+            id: claim.id,
             user: claim.user.to_string(),
             exp: (Utc::now() + Duration::days(7)).timestamp() as usize,
             iat: Utc::now().timestamp() as usize,
