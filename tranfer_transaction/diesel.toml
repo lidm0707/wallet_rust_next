@@ -6,7 +6,7 @@ file = "src/backend/postgres/schema.rs"
 custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
 
 [migrations_directory]
-dir = "X:\\code\\tranfer_transaction\\src\\backend\\postgres\\migrations"
+dir = "X:\\code\\wallet_rust_nextjs\\tranfer_transaction\\src\\backend\\postgres\\migrations"
 
 
 

@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -49,28 +48,22 @@ export default function Home() {
         },
         body: JSON.stringify(data),
       });
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData);
+        const { access_token, refresh_token } = responseData.data;
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const responseData = await response.json();
-      console.log(responseData);
-
-      // Extract tokens from the response
-      const { access_token, refresh_token } = responseData.data;
-
-      if (access_token && refresh_token) {
-        // Store tokens in localStorage or another method of your choice
-        localStorage.setItem("accessToken", access_token);
-        localStorage.setItem("refreshToken", refresh_token);
-
-        // Redirect to the dashboard (or other page) upon successful login
-        router.push("/sender"); // Change '/dashboard' to your desired page
+        if (access_token && refresh_token) {
+          localStorage.setItem("accessToken", access_token);
+          localStorage.setItem("refreshToken", refresh_token);
+          router.push("/sender")
+          
+        }
       } else {
-        console.error("Tokens not found in response");
+        alert('user or password incorrect')
       }
     } catch (error) {
+      alert(`some thing wrong ${error}`)
       console.error("There was a problem with the fetch operation:", error);
     }
   }

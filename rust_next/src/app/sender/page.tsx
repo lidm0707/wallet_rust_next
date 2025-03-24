@@ -32,8 +32,6 @@ export default function Sender() {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("accessToken");
-      console.log("Token being sent:", token);
-
       if (!token) {
         console.log("Token not found");
         setLoading(false);
