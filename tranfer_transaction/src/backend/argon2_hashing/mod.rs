@@ -18,12 +18,11 @@ pub fn hash(password: String) -> Result<String> {
     Ok(result.to_string())
 }
 
-pub fn verify(password: String, hashed_password: String) -> Result<bool> {
+pub fn verify(password: String, hashed_password: String) -> Result<()> {
     let parsed_hash =
         PasswordHash::new(&hashed_password).map_err(|e| anyhow::anyhow!(e.to_string()))?;
     let bytes_password = password.as_bytes();
 
-    Ok(Argon2::default()
-        .verify_password(bytes_password, &parsed_hash)
-        .is_ok())
+     Ok(Argon2::default().verify_password(bytes_password, &parsed_hash).unwrap())
+   
 }

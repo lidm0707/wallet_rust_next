@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Roboto_Mono } from "next/font/google";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "./globals.css";
 import {
   NavigationMenu,
@@ -10,13 +13,13 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const interFont = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const robotoMonoFont = Roboto_Mono({
+  variable: "--font-roboto-mono",
   subsets: ["latin"],
 });
 
@@ -31,23 +34,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <NavigationMenu>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <NavigationMenuLink href="/">Home</NavigationMenuLink>
-              <NavigationMenuLink href="/authen">Login</NavigationMenuLink> 
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-      <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          {children}
-        </body>
-      </html>
-    </>
+    <html lang="en" className={`${interFont.variable} ${robotoMonoFont.variable} antialiased`}>
+      <body>
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <NavigationMenuLink href="/">Home</NavigationMenuLink>
+                <NavigationMenuLink href="/authen">Login</NavigationMenuLink>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        {children}
+        <ToastContainer />
+      </body>
+    </html>
   );
 }

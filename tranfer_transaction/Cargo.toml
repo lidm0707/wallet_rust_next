@@ -27,6 +27,7 @@ diesel = { version = "2.2.4", features = [
     "chrono",
     "r2d2",
 ] }
+diesel_migrations = "2.2.0"
 
 argon2 = "0.5.3"
 rand = "0.8.5"

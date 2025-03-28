@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
+import { showToastError, showToastSuccess } from "@/components/ui/toast";
 
 // Define the shape of user data
 export type User = { id: number; username: string };
@@ -10,6 +11,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "id",
     header: "ID",
+
   },
   {
     accessorKey: "username",
@@ -20,7 +22,7 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       const receiverId = row.original.id; // Access the receiver's ID from the row data.
 
-      return <SendMoneyButton receiverId={receiverId} />;
+      return <SendMoneyButton receiverId={receiverId}/>;
     },
   },
 ];
@@ -76,7 +78,7 @@ function SendMoneyButton({ receiverId }: { receiverId: number }) {
   );
 }
 
-async function handleSendMoney( receiverId: number, amount: number) {
+async function handleSendMoney(receiverId: number, amount: number) {
   const token = localStorage.getItem("accessToken"); // Retrieve the token from localStorage
 
   if (!token) {
@@ -98,9 +100,8 @@ async function handleSendMoney( receiverId: number, amount: number) {
       body: JSON.stringify(payload), // Convert the object to a JSON string
     });
 
-    // Check if the response is not OK
     if (!response.ok) {
-      
+
       const contentType = response.headers.get("Content-Type") || "";
       let errorMessage = "Failed to send money. Please try again.";
 
@@ -116,19 +117,16 @@ async function handleSendMoney( receiverId: number, amount: number) {
       } else {
         errorMessage = responseText;
       }
-
-      console.error("Error sending money:", errorMessage);
-      alert(errorMessage);
+      await showToastError(`${errorMessage}!`)
       return;
     }
-  
-   
-    console.log("Money sent successfully:", response);
-    alert(`Money sent to user ID ${receiverId} successfully!`);
 
+
+    console.log("Money sent successfully:", response);
+    await showToastSuccess(`Money sent to user ID ${receiverId} successfully!`)
   } catch (error) {
     console.error("Error occurred:", error);
-    alert("An unexpected error occurred while sending money.");
+    await showToastError("An unexpected error occurred while sending money.")
   }
 }
 

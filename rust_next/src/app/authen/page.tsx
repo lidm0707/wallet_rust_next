@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter } from "next/navigation"; // Use Next.js Router
-
+import "react-toastify/dist/ReactToastify.css";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { showToastError, showToastSuccess } from "@/components/ui/toast";
 
 // Schema validation
 const formSchema = z.object({
@@ -57,17 +58,17 @@ export default function Home() {
           localStorage.setItem("accessToken", access_token);
           localStorage.setItem("refreshToken", refresh_token);
           router.push("/sender")
-          
+
         }
+        await showToastSuccess("Login")
       } else {
-        alert('user or password incorrect')
+        await showToastError("something went wrong")
       }
     } catch (error) {
-      alert(`some thing wrong ${error}`)
-      console.error("There was a problem with the fetch operation:", error);
+      console.error("There was a problem with the fetch operation:", error)
+      await showToastError(`${error}!`)
     }
   }
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <Form {...form}>
@@ -83,7 +84,7 @@ export default function Home() {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your username" {...field} />
+                  <Input data-testid = "user"  placeholder="Enter your username" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -98,7 +99,7 @@ export default function Home() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="Enter your password" {...field} />
+                  <Input data-testid = "password"  type="password" placeholder="Enter your password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -108,6 +109,7 @@ export default function Home() {
           {/* Register Link */}
           <div className="text-center">
             <Link
+            data-testid = "register"
               href="/register"
               className="text-blue-600 hover:text-blue-800 font-medium underline"
             >
@@ -116,7 +118,7 @@ export default function Home() {
           </div>
 
           {/* Submit Button */}
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" data-testid = "submit" >
             Submit
           </Button>
         </form>
