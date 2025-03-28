@@ -93,7 +93,10 @@ test('check send', async ({ page }) => {
     await page.getByTestId('user').fill(lin)
     await page.getByTestId('password').fill(lin)
     await page.getByTestId('submit').click()
+    await page.locator('//*[contains(@class,"Toastify__toast--success")]').nth(0).waitFor()
+    await page.locator('//*[contains(@class,"Toastify__toast--success")]').nth(0).click()
     await page.locator('//button[text() ="Send Money"]').nth(0).waitFor()
+    
     await page.locator(`//*[@data-testid = "table-cell" and text()="${lin}"]/following-sibling::td/button`).click()
     await page.locator('//*[@placeholder = "Enter amount"]').fill("1")
     await page.locator('//button[text() ="Send"]').waitFor()
